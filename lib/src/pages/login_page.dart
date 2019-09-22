@@ -1,3 +1,4 @@
+import 'package:carros/src/models/usuario.dart';
 import 'package:carros/src/utils/alert_dialog.dart';
 import 'package:carros/src/utils/login_api.dart';
 import 'package:carros/src/widgets/button.dart';
@@ -19,6 +20,27 @@ class _LoginPageState extends State<LoginPage> {
 
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    _checkUser();
+  }
+
+  _checkUser() async {
+
+    Usuario user = await Usuario.get();
+
+    if(user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,21 +1,24 @@
 import 'package:carros/src/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
+import '../models/usuario.dart';
+
 class DrawerList extends StatelessWidget {
 
-  final url = "https://picsum.photos/id/862/64/64";
+  Future<Usuario> user = Usuario.get();
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text("Lucas Arcanjo"),
-            accountEmail: Text("lucas@teste.com"),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(url, scale: 0.5),
-            ),
+          FutureBuilder(
+            future: user,
+            builder: (context, snapshot) {
+              Usuario user = snapshot.data;
+
+              return user != null ? _userAccount(user) : Container();
+            },
           ),
           ListTile(
             leading: Icon(Icons.dashboard),
@@ -34,11 +37,23 @@ class DrawerList extends StatelessWidget {
     );
   }
 
+  UserAccountsDrawerHeader _userAccount(Usuario user) {
+    return UserAccountsDrawerHeader(
+          accountName: Text(user.nome),
+          accountEmail: Text(user.email),
+          currentAccountPicture: CircleAvatar(
+            backgroundImage: NetworkImage(user.urlFoto, scale: 0.5),
+          ),
+        );
+  }
+
   _logout(BuildContext context) {
+    Usuario.clear();
     Navigator.pop(context);
     Navigator.pushReplacement(
         context,
          MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
+
 }

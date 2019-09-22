@@ -18,6 +18,7 @@ class Carro {
       this.latitude,
       this.longitude});
 
+  //ler os dados
   Carro.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
@@ -29,6 +30,7 @@ class Carro {
     longitude = json['longitude'];
   }
 
+  //gravar no banco precisa converter para map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
